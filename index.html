@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sistema de Eventos e Inscrições</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=Libre+Baskerville:wght@700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="./styles.css" />
+</head>
+<body>
+  <div class="bg-pattern"></div>
+  <div id="feedback" class="feedback hidden"></div>
+  <header class="hero">
+    <div>
+      <p class="eyebrow">MVP Full Stack</p>
+      <h1>Sistema de Eventos e Inscrições</h1>
+      <p class="subtitle">
+        SPA em HTML/CSS/JS puro consumindo FastAPI + SQLite.
+      </p>
+    </div>
+  </header>
+
+  <main>
+    <section class="panel">
+      <div class="section-title-row">
+        <h2>Eventos</h2>
+        <button id="refreshEventsBtn" type="button">Atualizar eventos</button>
+      </div>
+      <div id="eventsGrid" class="cards-grid"></div>
+    </section>
+
+    <section class="form-grid">
+      <article class="panel">
+        <h2>Novo Evento</h2>
+        <form id="createEventForm">
+          <label for="eventName">Nome</label>
+          <input id="eventName" required minlength="3" maxlength="120" />
+
+          <label for="eventDescription">Descrição</label>
+          <textarea id="eventDescription" maxlength="500" rows="3"></textarea>
+
+          <label for="eventDate">Data e hora</label>
+          <input id="eventDate" type="datetime-local" required />
+
+          <label for="eventPlace">Local</label>
+          <input id="eventPlace" required minlength="3" maxlength="120" />
+
+          <label for="eventCapacity">Limite de vagas</label>
+          <input id="eventCapacity" type="number" min="1" required />
+
+          <button type="submit">Criar evento</button>
+        </form>
+      </article>
+
+      <article class="panel">
+        <h2>Buscar Evento por ID</h2>
+        <form id="eventByIdForm">
+          <label for="eventIdLookup">ID do evento</label>
+          <input id="eventIdLookup" type="number" min="1" required />
+          <button type="submit">Buscar</button>
+        </form>
+        <div id="eventByIdResult" class="list-area"></div>
+      </article>
+    </section>
+
+    <section class="form-grid">
+      <article class="panel">
+        <h2>Inscrever Participante</h2>
+        <form id="createSubscriptionForm">
+          <label for="subscriptionEventId">ID do evento</label>
+          <input id="subscriptionEventId" type="number" min="1" required />
+
+          <label for="participantName">Nome do participante</label>
+          <input id="participantName" required minlength="3" maxlength="120" />
+
+          <label for="participantEmail">Email</label>
+          <input id="participantEmail" type="email" required />
+
+          <button type="submit">Inscrever</button>
+        </form>
+      </article>
+
+      <article class="panel">
+        <h2>Inscrições por Evento</h2>
+        <form id="eventSubscriptionsForm">
+          <label for="subscriptionsEventId">ID do evento</label>
+          <input id="subscriptionsEventId" type="number" min="1" required />
+          <button type="submit">Listar inscrições</button>
+        </form>
+        <div id="subscriptionsList" class="list-area"></div>
+      </article>
+    </section>
+
+    <section class="form-grid">
+      <article class="panel">
+        <h2>Cancelar Inscrição</h2>
+        <form id="cancelSubscriptionForm">
+          <label for="cancelEventId">ID do evento</label>
+          <input id="cancelEventId" type="number" min="1" required />
+
+          <label for="cancelSubscriptionId">ID da inscrição</label>
+          <input id="cancelSubscriptionId" type="number" min="1" required />
+
+          <button type="submit">Cancelar inscrição</button>
+        </form>
+      </article>
+
+      <article class="panel">
+        <div class="section-title-row">
+          <h2>Participantes</h2>
+          <button id="refreshParticipantsBtn" type="button">Atualizar</button>
+        </div>
+        <div id="participantsList" class="list-area"></div>
+      </article>
+    </section>
+  </main>
+
+  <div id="confirmModal" class="modal-backdrop hidden" role="dialog" aria-modal="true" aria-labelledby="confirmTitle">
+    <article class="modal-card">
+      <h2 id="confirmTitle">Confirmar exclusão</h2>
+      <p id="confirmMessage">Deseja continuar?</p>
+      <div class="modal-actions">
+        <button id="confirmCancelBtn" class="modal-btn modal-btn-secondary" type="button">Cancelar</button>
+        <button id="confirmOkBtn" class="modal-btn modal-btn-danger" type="button">Excluir</button>
+      </div>
+    </article>
+  </div>
+
+  <div id="attendeesModal" class="modal-backdrop hidden" role="dialog" aria-modal="true" aria-labelledby="attendeesTitle">
+    <article class="modal-card modal-card-wide">
+      <div class="modal-head">
+        <h2 id="attendeesTitle">Inscritos</h2>
+        <button id="attendeesCloseBtn" class="modal-close-btn" type="button" aria-label="Fechar modal de inscritos">X</button>
+      </div>
+      <div id="attendeesContent" class="list-area">
+        <p class="list-item">Carregando...</p>
+      </div>
+    </article>
+  </div>
+
+  <script src="./app.js"></script>
+</body>
+</html>
